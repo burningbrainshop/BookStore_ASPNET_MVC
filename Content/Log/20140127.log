@@ -1,0 +1,16 @@
+﻿
+[2014/1/27 上午 10:25:00] 例外狀況 : (EntityFramework) - {Purchase | PurchaseDetail} 值不能為 null。參數名稱: entity
+[2014/1/27 上午 10:25:32] 例外狀況 : (System.Web.Mvc) - {Purchase | PurchaseDetail} 對 'BookStore.Controllers.PurchaseController' 的方法 'System.Web.Mvc.ActionResult PurchaseDetail(Int32)' 中不可為 null 型別 'System.Int32' 的參數 'purchaseId' 而言，參數字典含有 null 項目。選擇性參數必須是參考型別、可為 null 的型別，或必須宣告為選擇性參數。參數名稱: parameters
+[2014/1/27 上午 10:25:58] 例外狀況 : (System.Web.Mvc) - {Purchase | Purchase} 在控制器 'BookStore.Controllers.PurchaseController' 上找不到公用動作方法 'Purchase'。
+[2014/1/27 上午 11:26:38] 例外狀況 : (System.Web.Mvc) - {Manager | ABC} 在控制器 'BookStore.Controllers.ManagerController' 上找不到公用動作方法 'ABC'。
+[2014/1/27 上午 11:27:59] 例外狀況 : (System.Web.Mvc) - {Purchase | Purchase} 在控制器 'BookStore.Controllers.PurchaseController' 上找不到公用動作方法 'Purchase'。
+[2014/1/27 上午 11:29:31] 例外狀況 : (System.Web.Mvc) - {BookProduct | Indexs} 在控制器 'BookStore.Controllers.BookProductController' 上找不到公用動作方法 'Indexs'。
+[2014/1/27 上午 11:42:09] 例外狀況 : (System.Web.Mvc) - {BookProduct | Indexs} 在控制器 'BookStore.Controllers.BookProductController' 上找不到公用動作方法 'Indexs'。
+[2014/1/27 上午 11:42:50] 例外狀況 : (System.Web.Mvc) - {BookProduct | Indexs} 在控制器 'BookStore.Controllers.BookProductController' 上找不到公用動作方法 'Indexs'。
+[2014/1/27 上午 11:44:00] 例外狀況 : (EntityFramework) - {Member | OrderDetails} 值不能為 null。參數名稱: entity
+[2014/1/27 上午 11:44:09] 例外狀況 : (System.Web.Mvc) - {Member | MemberIndex} 在控制器 'BookStore.Controllers.MemberController' 上找不到公用動作方法 'MemberIndex'。
+[2014/1/27 上午 11:52:23] 例外狀況 : (EntityFramework) - {Member | OrderDetails} 值不能為 null。參數名稱: entity
+[2014/1/27 上午 11:56:42] 例外狀況 : (EntityFramework) - {Member | OrderDetails} 值不能為 null。參數名稱: entity
+[2014/1/27 上午 11:58:34] 例外狀況 : (EntityFramework) - {Member | OrderDetails} 值不能為 null。參數名稱: entity
+[2014/1/27 下午 12:00:55] 例外狀況 : (EntityFramework) - {Order | OrderDetails} 值不能為 null。參數名稱: entity
+[2014/1/27 下午 12:02:23] 例外狀況 : (System.Web.Mvc) - {Member | NextBuy} 在控制器 'BookStore.Controllers.MemberController' 上找不到公用動作方法 'NextBuy'。

@@ -1,0 +1,2 @@
+[2014/7/16 上午 10:31:14] 例外狀況 : (.Net SqlClient Data Provider) - {Manager | Login} There is already an object named 'CategorySettings' in the database.
+[2014/7/16 上午 10:45:13] 例外狀況 : (System.Web.Mvc) - {Manager | BookProduct} 在控制器 'BookStore.Controllers.ManagerController' 上找不到公用動作方法 'BookProduct'。

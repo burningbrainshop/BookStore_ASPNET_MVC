@@ -1,0 +1,5 @@
+[2014/1/28 下午 03:07:02] 例外狀況 : (System.Web.Mvc) - {Order | MemberInfo} 在控制器 'BookStore.Controllers.OrderController' 上找不到公用動作方法 'MemberInfo'。
+[2014/1/28 下午 04:21:09] 例外狀況 : (System) - {Member | RegisterCreate} SMTP 伺服器需要安全連接，或用戶端未經驗證。 伺服器回應為: 5.5.1 Authentication Required. Learn more at
+[2014/1/28 下午 04:31:05] 例外狀況 : (System) - {Member | RegisterCreate} SMTP 伺服器需要安全連接，或用戶端未經驗證。 伺服器回應為: 5.5.1 Authentication Required. Learn more at
+[2014/1/28 下午 04:41:24] 例外狀況 : (System) - {Member | RegisterCreate} SMTP 伺服器需要安全連接，或用戶端未經驗證。 伺服器回應為: 5.5.1 Authentication Required. Learn more at
+[2014/1/28 下午 04:46:38] 例外狀況 : (System) - {Member | RegisterCreate} SMTP 伺服器需要安全連接，或用戶端未經驗證。 伺服器回應為: 5.5.1 Authentication Required. Learn more at
