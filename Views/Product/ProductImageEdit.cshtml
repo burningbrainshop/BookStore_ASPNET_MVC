@@ -1,0 +1,129 @@
+﻿@model BookStore.Models.Product
+@using BookStore.Helpers;
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@ViewBag.Errors
+<br />
+<table align="center" style="width:440px;">
+    <tr>
+        <td colspan="2"  style="text-align:left;"><h3>商品資料</h3></td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">商品編號</td>
+        <td style="text-align:left;padding-left:16px;">
+            @Html.DisplayFor(model => model.ProductId)
+        </td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">供應商</td>
+        <td style="text-align:left;padding-left:16px;">
+            @Html.ProvidersListFor(model => model.ProviderId, "Y")<br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">商品類別</td>
+        <td style="text-align:left;padding-left:16px;">
+            @Html.CategoryComboBoxFor(model => model.CategoryId)<br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">商品名稱</td>
+        <td style="text-align:left;padding-left:15px;">
+            @Html.DisplayFor(model => model.Name)<br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">商品成本</td>
+        <td style="text-align:left;padding-left:15px;">
+            @Html.DisplayFor(model => model.Cost) 元 / (1-99999之間的整數)<br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">商品售價</td>
+        <td style="text-align:left;padding-left:15px;">
+            @Html.DisplayFor(model => model.Price) 元 / (1-99999之間的整數)<br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">標準庫存量</td>
+        <td style="text-align:left;padding-left:15px;">
+            @Html.DisplayFor(model => model.StandardStock) 本 / (1-999之間的整數)<br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">庫存量</td>
+        <td style="text-align:left;padding-left:15px;">
+            @Html.DisplayFor(model => model.Stock) 本 / (1-999之間的整數)<br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">銷售量</td>
+        <td style="text-align:left;padding-left:15px;">
+            @Html.DisplayFor(model => model.SaledQuantity) 本 / (1-999之間的整數)<br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">是否上架</td>
+        <td style="text-align:left;padding-left:15px;">
+            @Html.ServiceOnComboBoxFor(model => model.OnSale)<br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">商品說明</td>
+        <td style="text-align:left;padding-left:15px;">
+            @Html.TextAreaFor(model => model.Description, new { cols = 8, rows = 10 })
+        </td>
+    </tr>
+    @using (Html.BeginForm("ProductImageEdit", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">商品圖片</td>
+        <td style="text-align:left;padding-left:15px;">            
+                @Html.HiddenFor(model => model.ProductId)
+                @if(Model.ImageType == null || Model.ImageType == "")
+                {
+                    <b>None</b>
+                }
+                else
+                {
+                    <img width="100" height="150" src="@Url.Action("GetImage", "Product", new { productId = Model.ProductId })" />
+                }
+                
+                <div>上傳圖檔：<input type="file" name="imageFile" /></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border:1px solid transparent;">
+            <input type="submit" value="上傳/修改圖檔" />
+        </td>
+    </tr>
+    }
+    <tr>
+        <td colspan="2" style="border:1px solid transparent; text-align:left;">
+            @Html.ActionLink("修改", "ProductEdit", new { productId = Model.ProductId }) |  
+            @Html.ActionLink("返回列表", "ProductIndex")
+        </td>
+    </tr>
+</table>
+
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:200px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>庫存商品管理</h4></td></tr>
+        <tr><td style="border:0px; background-color:#8ebce1;">@Html.ActionLink("商品資料設定", "ProductIndex")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>
+
+
+
+
