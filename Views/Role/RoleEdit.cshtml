@@ -1,0 +1,47 @@
+﻿@model BookStore.Models.Role
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@using(Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.RoleId)
+    <table align="center" style="width:400px;">
+        <tr>
+            <td colspan="2"  style="text-align:left;"><h3>角色資料</h3></td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">角色名稱</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.TextBoxFor(model => model.Name, new { @class = "singleTextBox" })<br />
+                @Html.ValidationMessageFor(model => model.Name)
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent;">
+                <input type="submit" value="修改" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;">
+                @Html.ActionLink("返回列表", "RoleIndex")
+            </td>
+        </tr>
+    </table>
+}
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:200px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>帳號管理</h4></td></tr>
+        <tr><td style="border:0px;background-color:#8ebce1;">@Html.ActionLink("角色設定", "RoleIndex", "Role")</td></tr>
+        <tr><td style="border:0px;">&nbsp;@Html.ActionLink("帳號設定", "ManagerIndex", "Manager")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>
+
+

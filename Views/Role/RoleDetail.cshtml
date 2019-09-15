@@ -1,0 +1,120 @@
+﻿@model BookStore.ViewModels.RoleDetailsView
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+@TempData["values"]
+<table align="center" style="width:350px;">
+    <tr>
+        <td colspan="2"  style="text-align:left;"><h3>角色資料</h3></td>
+    </tr>
+    <tr>
+        <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">角色名稱</td>
+        <td style="text-align:left;padding-left:15px;">
+            @Html.DisplayFor(model => model.Name, new { @class = "singleTextBox" })
+    </tr>
+        <tr>
+        <td colspan="2" style="border:1px solid transparent; text-align:left;">  
+            @Html.ActionLink("返回列表", "RoleIndex")
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border:1px solid transparent;">
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border:1px solid transparent; text-align:left;">
+            @using(Html.BeginForm("UpdateRoleInApplication", "Role"))
+            {
+                @Html.HiddenFor(model => model.RoleId)
+                <fieldset>
+                    <legend>角色 / 功能權限設定</legend>
+                        @if(!Model.ControllerList.Count.Equals(0))
+                        {
+                            <table style="width:100%;">
+                                @foreach(var item in Model.ControllerList)
+                                {
+                                    <tr>
+                                        <td style="width:10px;text-align:right;border:0px;border-bottom:1px dashed #999;">-</td>
+                                        <td style="text-align:left;border:0px;border-bottom:1px dashed #999;">@item.ControllerName</td>
+                                        @if(@item.Checked.Equals("Y"))
+                                        {
+                                            <td style="width:15px;border:0px;">@Html.CheckBox(item.ControllerListName, true, new { value = item.ControllerListValue })</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:15px;border:0px;">@Html.CheckBox(item.ControllerListName, false, new { value = item.ControllerListValue })</td>
+                                        }
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="3" style="border-bottom:1px solid transparent;text-align:right;">
+                                        <input type="submit" value="確定" />
+                                    </td>
+                                </tr>
+                            </table><br />
+                        }
+                        else
+                        {
+                            @:目前沒有資料
+                        }
+                </fieldset>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border:1px solid transparent;">
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border:1px solid transparent; text-align:left;">
+            <fieldset>
+                <legend>包含帳號</legend>
+                    @if(!Model.ManagerList.Count.Equals(0))
+                    {
+                        <table style="width:100%;">
+                            @foreach(var item in Model.ManagerList)
+                            {
+                                <tr>
+                                    <td style="width:10px;text-align:right;border:0px;border-bottom:1px dashed #999;">-</td>
+                                    <td style="text-align:left;border:0px;border-bottom:1px dashed #999;">@item.Account</td>
+                                    <td style="width:45px;border:0px;border-bottom:1px dashed #999;">@Html.ActionLink("刪除", "RoleJoin", new { managerId = item.ManagerId, roleId = Model.RoleId, status = "remove", operation = "Role" })</td>
+                                </tr>
+                            }
+                        </table><br />
+                    }
+                    else
+                    {
+                        @:目前沒有資料
+                    }
+            </fieldset>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border:1px solid transparent;">
+            &nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border:1px solid transparent;">
+            &nbsp;
+        </td>
+    </tr>
+</table>
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:200px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>帳號管理</h4></td></tr>
+        <tr><td style="border:0px; background-color:#8ebce1;">@Html.ActionLink("角色設定", "RoleIndex")</td></tr>
+        <tr><td style="border:0px;">&nbsp;@Html.ActionLink("帳號設定", "ManagerIndex", "Manager")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>

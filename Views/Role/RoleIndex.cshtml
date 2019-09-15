@@ -1,0 +1,136 @@
+﻿@model List<BookStore.Models.Role>
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@{
+    var ajaxOptions = new AjaxOptions() { 
+        Confirm = "您確定要刪除此角色嗎?",
+        OnSuccess = "DelCmdSuccess",
+        OnFailure = "DelCmdFailure"
+    };
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function DelCmdSuccess()
+        {
+            alert("資料刪除成功");
+            location.reload();
+        }
+
+        function DelCmdFailure(xhr)
+        {
+            if (xhr.status == 403)
+                alert("資料刪除失敗:請先確認沒有任何帳號屬於此角色");
+            else
+                alert("資料刪除失敗");
+        }
+    </script>
+}
+
+<table align="center" style="width:400px;">
+    <tr>
+        <td colspan="3" style="border:1px solid transparent;text-align:left;">@Html.ActionLink("新增角色", "RoleCreate")</td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align:left;"><h3>角色-列表</h3></td>
+    </tr>
+    <tr style="background-color:#000; color:#ada6a6;">
+        <td style="width:20px; text-align:center;"></td>
+        <td style="width:230px;">角色名稱</td>
+        <td style="width:120px; text-align:center;">編輯</td>
+    </tr>
+    <tbody id="content-list">
+        @if (!Model.Count.Equals(0))
+        {
+            foreach(var item in Model)
+            {
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>@item.Name</td>
+                    <td>
+                        @Html.ActionLink("修改", "RoleEdit", new { roleId = item.RoleId })
+                        @Ajax.ActionLink("刪除", "RoleDelete", new { roleId = item.RoleId }, ajaxOptions)
+                        @Html.ActionLink("內容", "RoleDetail", new { roleId = item.RoleId })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        { 
+            <tr><td colspan="3">目前沒有資料</td></tr>
+        }
+    </tbody>
+    <tr>
+        <td colspan="3" style="border:1px solid transparent;padding:0;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="3" style="border:1px solid transparent;padding:0;">
+            <table align="center" style="border:0px;font-size:12px;width:100%;">
+                <tr>
+                    @if (ViewBag.Paging.NowPage > 1)
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("第一頁", "GetPage", new { curPage = 1 })</td>
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("前一頁", "GetPage", new { curPage = (ViewBag.Paging.NowPage - 1) })</td>
+                    }
+                    else
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">第一頁</td>
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">上一頁</td>
+                    }
+                    <td style="border:1px solid #808080;width:150px;">
+                    @for (var page = (ViewBag.Paging.NowPage - 6); page < (ViewBag.Paging.NowPage + 6); page++)
+                    {
+                        if (page > 0 && page <= ViewBag.Paging.MaxPage)
+                        {
+                            if (page == ViewBag.Paging.NowPage)
+                            {
+                                <b><span style="color:#72a1d0;">@page</span></b>
+                            }
+                            else
+                            {
+                                string pageStr = page.ToString();
+                                @Html.ActionLink(pageStr, "GetPage", new { curPage = page })
+                            }
+                        }
+                    }
+                    </td>
+                    @if (ViewBag.Paging.NowPage < ViewBag.Paging.MaxPage)
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("下一頁", "GetPage", new { curPage = (ViewBag.Paging.NowPage + 1) })</td> 
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("最後一頁", "GetPage", new { curPage = ViewBag.Paging.MaxPage })</td>
+                    }
+                    else
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">下一頁</td>
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">最後一頁</td>
+                    }
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="border:1px solid transparent;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="3" style="border:1px solid transparent;color:#4d6a75;text-align:left;">* 刪除角色前，請先至 [內容] 頁刪除所有帳號</td>
+    </tr>
+</table>
+<br />
+<br />
+<br />
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:200px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>帳號管理</h4></td></tr>
+        <tr><td style="border:0px; background-color:#8ebce1;">@Html.ActionLink("角色設定", "RoleIndex")</td></tr>
+        <tr><td style="border:0px;">&nbsp;@Html.ActionLink("帳號設定", "ManagerIndex", "Manager")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>
+
+
