@@ -1,0 +1,11 @@
+﻿@model BookStore.Models.Cart
+
+@{
+    ViewBag.Title = "OrderCreate";
+}
+
+<h2>OrderCreate</h2>
+@foreach(var item in ViewBag.Cart as List<BookStore.Models.Cart>)
+{
+    @item.productCart.Name  @:/  @item.quantity <br />
+}

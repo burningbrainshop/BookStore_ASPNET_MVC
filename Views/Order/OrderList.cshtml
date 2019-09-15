@@ -1,0 +1,138 @@
+﻿@model BookStore.Models.Member
+
+@{
+    Layout = "~/Views/Shared/_BookStoreLayout.cshtml";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.8.20.min.js")"></script>
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/base/jquery-ui.css")"></link>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/PageJQApp.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.singlesticker.js")"></script>
+}
+
+@{
+    var amount = 0;    
+}
+
+<table id='bookinfo' align="center" style='margin-left:-23px;'>
+    <tr>
+		<td style="height:40px;background-color:#dbdfe5;border:1px solid transparent;text-align:left;">
+			<font style='font-size:22px;margin-left:30px;'>購物明細</font>
+		</td>
+	</tr>
+	<tr>
+		<td style="height:510px; background-color:#000;text-align:center;padding:0;" valign="top">
+			<table id="content" border="0" align="center">
+				<tr>
+					<td valign="top" style="text-align:center;">
+                        <table style="width:700px;" align="center">
+                            <tr>
+                                <td style="border:1px solid transparent;">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td colspan="3" style="border:1px solid transparent;border-bottom:1px solid #414c91;color:#dbdfe5;text-align:left;">感謝您的訂購，您的訂單編號為：@ViewBag.OrderId</td>
+                                        </tr>
+                                        <tr style='color:#FFF; background-color:#303a4a;'>
+                                            <td style="border:1px solid #414c91; padding:3px;width:500px;">書名</td><td style="border:1px solid #414c91; padding:3px;width:100px;">數量</td><td style="border:1px solid #414c91; padding:3px;width:100px;">金額</td>
+                                        </tr>
+                                        @if(((List<BookStore.Models.Cart>)Session["Carts"]) != null)
+                                        {
+                                            foreach (var item in (List<BookStore.Models.Cart>)Session["Carts"])
+                                            {
+                                                amount += (item.quantity * item.productCart.Price);
+                                                <tr style="color:#ababab;">
+                                                    <td style="border:1px solid #363f7a; background-color:#3a4763; padding:3px; text-align:left;">@item.productCart.Name</td><td style="border:1px solid #363f7a; background-color:#3a4763; padding:3px; text-align:center;">@item.quantity</td><td style="border:1px solid #363f7a;background-color:#3a4763; padding:3px;text-align:right;font-weight:bold;">@item.productCart.Price</td>
+                                                </tr>
+                                            }
+                                        }
+                                        <tr style="color:#FFF; background-color:#4b5668;">
+                                            <td colspan="2" style="border:1px solid #363f7a; padding:5px; text-align:left; color:#abd58d;">本訂單應付款金額</td><td style="border:1px solid #363f7a;padding:5px;text-align:right;font-weight:bold;color:#f23535;">@amount</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="border:1px solid transparent;">&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid transparent;">
+                                    <table style="width:100%;padding:3px;">
+                                        <tr style='color:#FFF; background-color:#303a4a;'>
+                                            <td colspan="2" style="border:1px solid #414c91; padding:3px;width:500px;text-align:left;">寄送資訊</td>
+                                        </tr>
+                                        <tr style="color:#ababab;">
+                                             <td style="width:30px;border:1px solid #363f7a;background-color:#3a4763;padding:3px;text-align:center;">收 件 者</td><td style="width:200px;border:1px solid #363f7a; background-color:#3a4763; padding:3px; text-align:left;">@Model.Name</td>
+                                        </tr>
+                                        <tr style="color:#ababab;">
+                                             <td style="width:30px;border:1px solid #363f7a;background-color:#3a4763;padding:3px;text-align:center;">聯絡電話</td><td style="border:1px solid #363f7a; background-color:#3a4763; padding:3px; text-align:left;">@Model.PhoneNumber</td>
+                                        </tr>
+                                        <tr style="color:#ababab;">
+                                             <td style="width:30px;border:1px solid #363f7a;background-color:#3a4763;padding:3px;text-align:center;">Email信箱</td><td style="border:1px solid #363f7a; background-color:#3a4763; padding:3px; text-align:left;">@Model.Email</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:1px solid transparent;">&nbsp;</td>
+                                        </tr>
+                                        <tr style="background-color:#4b5668;">
+                                            <td colspan="3" style="border:1px solid transparent;text-align:left;color:#37819d;">您可至 @Html.ActionLink("會員專區", "Index", "Member", new { style = "color:#8cc2f5;" }) 查詢訂單，或者 @Html.ActionLink("回到首頁", "Index", "BookProduct", new { style = "color:#8cc2f5;" })</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td style="height:40px;background-color:#000;border:1px solid transparent;" nowrap>
+			<table border="0">
+				<tr>
+					<td style="width:300px;border:1px solid transparent;text-align:left;">
+						<span id="news" style="display:inline-block;">
+							<div class="headline"><img src="/Images/blue/megaphone.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 11/29~12/25 參展書5折起，指定商品滿699元再折50元</span></div>
+							<div class="headline"><img src="/Images/red/video-music.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 遇見。專屬你的樂讀星球 飛碟有聲書展</span></div>
+							<div class="headline"><img src="/Images/blue/megaphone.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 會員獨享﹣滿千元送3﹪購物金</span></div>
+							<div class="headline"><img src="/Images/blue/megaphone.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 入會、首購禮 特定商品禮券免費送</span></div>
+							<div class="headline"><img src="/Images/blue/alarm-clock.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 年度獻禮 Android系列叢書熱賣中 滿千再折扣</span></div>
+						</span>
+					</td>
+					<td style="width:200px;border:1px solid transparent;">
+						<span id="dockBack" style="display:block; overflow:hidden; width:250px; height:40px;">
+  							<ul id="dock" style="list-style:none; display:inline; width:250px; height:40px; margin:0; padding:0;">
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="show" src="/Images/black/home.png" border="0" alt="HOME" width="35" height="35" />
+    							</li>
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="loginImg" src="/Images/black/inbox.png" border="0" alt="LOGIN" width="35" height="35" />
+    							</li>
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="show" src="/Images/black/game-controller.png" alt="WEBSITE" border="0" width="35" height="35" />
+    							</li>
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="show" src="/Images/black/shopping-cart.png" alt="CART" border="0" width="35" height="35" />
+    							</li>
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="show" src="/Images/black/users.png" border="0" alt="USER" width="35" height="35" />
+    							</li>
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="show" src="/Images/black/wireless-router.png" alt="MANAGER" border="0" width="35" height="35" />
+    							</li>
+  							</ul>
+  						</span>
+  					</td>
+  					<td style="width:290px;border:1px solid transparent;">
+  						<div id="loginDiv" style="width:290px; height:28px; color:#FFF; border:1px solid #3E3E3E;line-height:30px;margin-right:10px;text-align:center;">
+                              @if (User.IsInRole("Member") && User.Identity.IsAuthenticated)
+                              { 
+                                  @:您登入的帳號: @User.Identity.Name      
+                              }
+  						</div>
+  					</td>
+  				</tr>
+  			</table>
+		</td>
+	</tr>
+</table>

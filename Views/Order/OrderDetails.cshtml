@@ -1,0 +1,129 @@
+﻿@model BookStore.ViewModels.OrderDetailsView
+@using BookStore.Helpers;
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@using (Html.BeginForm("OrderStatusEdit", "Order"))
+{
+    @Html.HiddenFor(model => model.OrderId)
+    <input type="hidden" name="getpage" value="detailpage">
+    <table align="center" style="width:650px;margin-left:70px;">
+        <tr>
+            <td colspan="2"  style="text-align:left;"><h3>訂單資料</h3></td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">訂購時間</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.DisplayFor(model => model.CreatedOn)
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">訂單編號</td>
+            <td style="text-align:left;padding-left:15px;color:darkred;">
+                @Html.DisplayFor(model => model.OrderId)
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">訂購金額</td>
+            <td style="text-align:left;padding-left:15px;">
+                @String.Format("{0:C}", Model.Amount)
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">商品數量</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.DisplayFor(model => model.ItemCount)
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">訂單狀態</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.OrderStatusComboBox(Model.StatusId) <input type="submit" value="變更狀態">
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;">  
+                @Html.ActionLink("返回列表", "OrderIndex")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent;text-align:left;"> 
+                <table style="width:100%;">
+                    <tr>
+                        <td colspan="4"  style="text-align:left;"><h3>訂購者資料</h3></td>
+                    </tr>
+                    <tr>
+                        <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">訂購者</td>
+                        <td style="text-align:left;padding-left:15px;">@Html.DisplayFor(model => model.MemberDetail.Name)</td>
+                        <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">聯絡電話</td>
+                        <td style="text-align:left;padding-left:15px;">@Html.DisplayFor(model => model.MemberDetail.PhoneNumber)</td>
+                    </tr>
+                    <tr>
+                        <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">Email</td>
+                        <td colspan="3" style="text-align:left;padding-left:15px;">@Html.DisplayFor(model => model.MemberDetail.Email)</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent;">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                @if(!Model.OrderItems.Count.Equals(0))
+                {
+                    int total = 0;
+                    <table style="width:100%;">
+                        <tr>
+                            <td colspan="4"  style="text-align:left;"><h3>商品明細</h3></td>
+                        </tr>
+                        <tr style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;">
+                            <td>&nbsp;</td>
+                            <td>商品名稱</td>
+                            <td>訂購數量</td>
+                            <td style="width:40px;">商品售價</td>
+                            <td style="width:40px;">總計</td>
+                        </tr>
+                        @foreach(var item in Model.OrderItems)
+                        {
+                            total += (item.Price * item.Quantity);
+                            <tr>
+                                <td style="background-color:#808080;border-bottom:1px dashed #999;">&nbsp;</td>
+                                <td style="border-bottom:1px dashed #999;">@item.singleProduct.Name</td>
+                                <td style="border-bottom:1px dashed #999;text-align:center;">@item.Quantity</td>
+                                <td style="border-bottom:1px dashed #999;text-align:center;color:darkred;">@String.Format("{0:C}", item.Price)</td>
+                                <td style="border-bottom:1px dashed #999;width:80px;white-space:nowrap;text-align:center;">
+                                    @String.Format("{0:C}", (item.Price * item.Quantity))
+                                </td>
+                            </tr>
+                        }            
+                        <tr>
+                            <td style="background-color:#8a220d;border-top:1px solid #999;">&nbsp;</td>
+                            <td colspan="3" style="background-color:#b4ccd9;border-top:1px solid #999;">應付總金額</td><td style="background-color:#dbdfe5;border-top:1px solid #999;font-weight:bolder;color:darkred;">@String.Format("{0:C}", total)</td>
+                        </tr>          
+                    </table>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+}
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:140px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>訂單管理</h4></td></tr>
+        <tr><td style="border:0px;background-color:#8ebce1;">@Html.ActionLink("訂單狀態設定", "OrderIndex", "Order")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>
