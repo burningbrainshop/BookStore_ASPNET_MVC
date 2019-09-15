@@ -1,0 +1,51 @@
+﻿@model BookStore.Models.Manager
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@using(Html.BeginForm())
+{
+    <table align="center" style="width:400px;">
+        <tr>
+            <td colspan="2"  style="text-align:left;"><h3>帳號資料</h3></td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">管理者帳號</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.TextBoxFor(model => model.Account, new { @class = "singleTextBox" })<br />
+                @Html.ValidationMessageFor(model => model.Account)
+        </tr>
+        <tr>
+            <td style="width:50px; text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">管理者密碼</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.PasswordFor(model => model.Password, new { @class = "singleTextBox" })<br />
+                @Html.ValidationMessageFor(model => model.Password)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent;">
+                <input type="submit" value="新增" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;">
+                @Html.ActionLink("返回列表", "ManagerIndex")
+            </td>
+        </tr>
+    </table>
+}
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:200px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>帳號管理</h4></td></tr>
+        <tr><td style="border:0px;">@Html.ActionLink("角色設定", "RoleIndex", "Role")</td></tr>
+        <tr><td style="border:0px;background-color:#8ebce1;">&nbsp;@Html.ActionLink("帳號設定", "ManagerIndex", "Manager")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>

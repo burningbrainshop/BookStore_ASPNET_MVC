@@ -1,0 +1,70 @@
+﻿@model BookStore.ViewModels.ManagerDetailAndRolesListView
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<table align="center" style="width:400px;">
+    <tr>
+        <td colspan="2"  style="text-align:left;"><h3>帳號資料</h3></td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">管理者帳號</td>
+        <td style="text-align:left;padding-left:15px;">
+            @Html.DisplayFor(model => model.Account)<br />
+        </td>
+    </tr>
+    <tr>
+        <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">最後登入時間</td>
+        <td style="text-align:left;padding-left:15px;">
+            @Html.DisplayFor(model => model.LastLoginOn)<br />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border:1px solid transparent; text-align:left;">
+            @Html.ActionLink("更改密碼", "ManagerEdit", new { managerId = Model.ManagerId }) |  
+            @Html.ActionLink("返回列表", "ManagerIndex")
+        </td>
+    </tr>
+</table>
+<br />
+<table align="center" style="width:400px;">
+    <tr>
+        <td style="border:1px solid transparent;text-align:left;">
+            <fieldset>
+                <legend>角色</legend>
+                    @foreach(var item in Model.RoleList)
+                    {
+                        if(item.Join.Equals("N"))
+                        {
+                            @:[  
+                            @Html.ActionLink("加入", "RoleJoin", "Role", new { managerId = Model.ManagerId, roleId = item.RoleId, status = "add", operation = "Manager" }, null) 
+                            @: ]
+                            @:&nbsp;&nbsp;- @item.Name<br />
+                        }
+                        else
+                        {
+                            @:[  
+                            @Html.ActionLink("移除", "RoleJoin", "Role", new { managerId = Model.ManagerId, roleId = item.RoleId, status = "remove", operation = "Manager" }, null) 
+                            @: ]
+                            @:&nbsp;&nbsp;- @item.Name<br />
+                        }
+                    }
+            </fieldset>
+        </td>
+    </tr>
+</table>
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:140px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>帳號管理</h4></td></tr>
+        <tr><td style="border:0px;">@Html.ActionLink("角色設定", "RoleIndex", "Role")</td></tr>
+        <tr><td style="border:0px;background-color:#8ebce1;">&nbsp;@Html.ActionLink("帳號設定", "ManagerIndex", "Manager")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>
