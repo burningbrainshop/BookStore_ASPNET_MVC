@@ -1,0 +1,96 @@
+﻿@model BookStore.Models.Provider
+@using BookStore.Helpers;
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@using(Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.ProviderId)
+    <table align="center" style="width:440px; margin-right:5px;">
+        <tr>
+            <td colspan="2"  style="text-align:left;"><h3>供應商資料</h3></td>
+        </tr>
+        <tr>
+            <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">供應商編號</td>
+            <td style="text-align:left;padding-left:16px;">
+                @Html.DisplayFor(model => model.ProviderId)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">供應商類別</td>
+            <td style="text-align:left;padding-left:16px;">
+                @Html.ProviderComboBoxFor(model => model.ProviderCodeId)<br />
+                @Html.ValidationMessageFor(model => model.ProviderCodeId)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">供應商名稱</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.TextBoxFor(model => model.Name)<br />
+                @Html.ValidationMessageFor(model => model.Name)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">聯絡人</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.TextBoxFor(model => model.Contactor)<br />
+                @Html.ValidationMessageFor(model => model.Contactor)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">電子郵件</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.TextBoxFor(model => model.Email)<br />
+                @Html.ValidationMessageFor(model => model.Email)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">聯絡電話</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.TextBoxFor(model => model.PhoneNumber)<br />
+                @Html.ValidationMessageFor(model => model.PhoneNumber)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">供應商折扣</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.TextBoxFor(model => model.Discount, new { @class = "discountTextBox", maxlength = 2 }) (0-99之間的整數)<br />
+                @Html.ValidationMessageFor(model => model.Discount)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:90px; text-align:right;white-space:nowrap;background-color:black;color:#ddd;">成為供應商</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.ServiceOnComboBoxFor(model => model.Service)<br />
+                @Html.ValidationMessageFor(model => model.Service)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent;">
+                <input type="submit" value="修改" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;">
+                @Html.ActionLink("返回列表", "ProviderIndex")
+            </td>
+        </tr>
+    </table>
+}
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:200px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>供應商資料設定</h4></td></tr>
+        <tr><td style="border:0px; background-color:#8ebce1;">@Html.ActionLink("供應商資料設定", "ProviderIndex")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>
+
