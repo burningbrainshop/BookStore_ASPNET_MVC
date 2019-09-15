@@ -1,0 +1,27 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "錯誤";
+}
+
+<table style="text-align:left;" align="center">
+    <tr>
+        <td style="border:1px solid transparent;">
+            <hgroup class="title">
+                <h3 class="error">訊息：處理您的要求時發生錯誤。</h3>
+                <br />
+                <h5>建議：1.請由上方功能表列選擇應用程式</h5>                
+                <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.請以能執行此程式的帳號登入</h5>
+                <br />
+                <br />
+            </hgroup>
+        </td>
+    </tr>
+</table>
