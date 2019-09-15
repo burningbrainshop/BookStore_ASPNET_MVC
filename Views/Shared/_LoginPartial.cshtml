@@ -1,0 +1,11 @@
+﻿@if (!User.IsInRole("Member") && Request.IsAuthenticated) {
+    <text>
+        您好，@User.Identity.Name !
+        @Html.ActionLink("登出", "Logout", "Manager")
+    </text>
+} else {
+    <ul>
+        <li>@Html.ActionLink("網站架構說明", "Description", "Description", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("登入", "Login", "Manager", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

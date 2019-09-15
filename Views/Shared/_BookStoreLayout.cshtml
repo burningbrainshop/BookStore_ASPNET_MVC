@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - UFO BookStore Online</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p class="site-title">UFO BookStore</p>
+                </div>
+                <div class="float-right">
+                    <section id="login">
+                        @Html.Partial("_StoreLoginPartial")
+                    </section>
+                    <div style="height:50px;"></div>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p style="width:960px;text-align:center;">&copy; @DateTime.Now.Year - UFO BookStore Online, a ASP.NET MVC 應用程式 by Lin [以上資料僅供測試之用，無任何商業用途]</p>
+                </div>
+            </div>
+        </footer>
+
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
+

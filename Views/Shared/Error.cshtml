@@ -1,0 +1,70 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@using System.Web;
+@using BookStore.Infrastruture;
+
+@{
+    ViewBag.Title = "錯誤";
+
+    string controllerName = Model.ControllerName;
+    string actionName = string.Empty;
+    if (controllerName.Equals("Purchase") || controllerName.Equals("Stock"))
+    {
+        actionName = controllerName + "TitleIndex";
+    }
+    else if(controllerName.Equals("Member") || controllerName.Equals("Cart") || controllerName.Equals("BookProduct"))
+    {
+        actionName = "Index";
+    }
+    else
+    {
+        actionName = controllerName + "Index";     
+    }   
+    
+    if(actionName.Equals("Index"))
+    {
+        Layout = "~/Views/Shared/_BookStoreLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        @section featured {
+            <section class="featured">
+                <div class="content-wrapper"></div>
+            </section>
+        }
+    }
+}
+
+@{
+    IErrorHandler _iLogHandler = LogManager.GetHandler("Log");
+    _iLogHandler.Error(Model.Exception, Model.Exception.Message, Model.ControllerName, Model.ActionName);
+
+    //System.Web.HttpContext.ClearError();
+    System.Web.HttpContext.Current.Response.Clear();
+    System.Web.HttpContext.Current.Response.TrySkipIisCustomErrors = true;    
+}
+
+<table style="text-align:left;" align="center">
+    <tr>
+        <td style="border:1px solid transparent;">
+            <hgroup class="title">
+                <h3 class="error">訊息：處理您的要求時發生錯誤。</h3>
+                <br />
+                
+                <h5>建議：1.回到上次作業中的 @Html.ActionLink("應用程式", actionName, controllerName, "", new { style = "text-decoration:underline" })</h5>                    
+                    @{
+                        if (actionName.Equals("Index"))
+                        {
+                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.返回 @Html.ActionLink("首頁", "Index", "BookProduct", "", new { style = "text-decoration:underline" })</h5>
+                        }
+                        else
+                        {
+                            <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.返回 @Html.ActionLink("首頁", "Welcome", "Manager", "", new { style = "text-decoration:underline" })</h5>
+                        }
+                    }
+                <br />
+                <br />
+            </hgroup>
+        </td>
+    </tr>
+</table>
