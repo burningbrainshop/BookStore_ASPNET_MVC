@@ -1,0 +1,129 @@
+﻿@model List<BookStore.ViewModels.StockTitleView>
+@using System.Text;
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@{
+    var ajaxOptions = new AjaxOptions() { 
+        Confirm = "您確定要刪除此筆進貨單嗎?",
+        OnSuccess = "DelCmdSuccess",
+        OnFailure = "DelCmdFailure"
+    };   
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function DelCmdSuccess()
+        {
+            alert("進貨單刪除成功");
+            location.reload();
+        }
+
+        function DelCmdFailure()
+        {
+            alert("進貨單刪除失敗");
+        }
+    </script>
+}
+
+<table align="center" style="width:600px; margin-left:25px;">
+    <tr>
+        <td colspan="3" style="text-align:left;"><h3>進貨單-列表</h3></td>
+    </tr>
+    <tr style="background-color:#000; color:#ada6a6;">
+        <td style="width:20px; text-align:center;"></td>
+        <td>採購單號</td>
+        <td>供應商名稱</td>
+        <td>進貨金額</td>
+        <td>進貨時間</td>
+        <td style="width:140px; text-align:center;white-space:nowrap;">編輯</td>
+    </tr>
+    <tbody id="content-list">
+        @if (!Model.Count.Equals(0))
+        {
+            foreach(var item in Model)
+            {
+                <tr>           
+                    <td>@item.StockId</td>
+                    <td>@item.PurchaseId</td>
+                    <td>@item.ProviderName</td>    
+                    <td style="color:darkred;">@String.Format("{0:C}", item.Amount)</td>
+                    <td>@item.InStockedOn</td>
+                    <td>
+                        @Html.ActionLink("修改", "StockTitleEdit", new { stockId = item.StockId })
+                        @Ajax.ActionLink("刪除", "StockTitleDelete", new { stockId = item.StockId }, ajaxOptions)
+                        @Html.ActionLink("明細", "StockDetail", new { stockId = item.StockId })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        { 
+            <tr><td colspan="6">目前沒有資料</td></tr>
+        }
+    </tbody>
+    <tr>
+        <td colspan="9" style="border:1px solid transparent;padding:0;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="9" style="border:1px solid transparent;padding:0;">
+            <table align="center" style="border:0px;font-size:12px;width:100%;">
+                <tr>
+                    @if (ViewBag.Paging.NowPage > 1)
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("第一頁", "GetPage", new { curPage = 1 })</td>
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("前一頁", "GetPage", new { curPage = (ViewBag.Paging.NowPage - 1) })</td>
+                    }
+                    else
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">第一頁</td>
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">上一頁</td>
+                    }
+                    <td style="border:1px solid #808080;width:200px;">
+                    @for (var page = (ViewBag.Paging.NowPage - 6); page < (ViewBag.Paging.NowPage + 6); page++)
+                    {
+                        if (page > 0 && page <= ViewBag.Paging.MaxPage)
+                        {
+                            if (page == ViewBag.Paging.NowPage)
+                            {
+                                <b><span style="color:#72a1d0;">@page</span></b>
+                            }
+                            else
+                            {
+                                string pageStr = page.ToString();
+                                @Html.ActionLink(pageStr, "GetPage", new { curPage = page })
+                            }
+                        }
+                    }
+                    </td>
+                    @if (ViewBag.Paging.NowPage < ViewBag.Paging.MaxPage)
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("下一頁", "GetPage", new { curPage = (ViewBag.Paging.NowPage + 1) })</td> 
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("最後一頁", "GetPage", new { curPage = ViewBag.Paging.MaxPage })</td>
+                    }
+                    else
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">下一頁</td>
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">最後一頁</td>
+                    }
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="9" style="border:1px solid transparent;">&nbsp;</td>
+    </tr>
+</table>
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:140px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>採購進貨管理</h4></td></tr>
+        <tr><td style="border:0px;">@Html.ActionLink("採購單設定", "PurchaseTitleIndex", "Purchase")</td></tr>
+        <tr><td style="border:0px;background-color:#8ebce1;">&nbsp;@Html.ActionLink("進貨單設定", "StockTitleIndex", "Stock")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>
