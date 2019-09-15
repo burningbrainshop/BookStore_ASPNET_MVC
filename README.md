@@ -1,5 +1,5 @@
 # BookStore_ASPNET_MVC
-  2014年作品 網路書店ASP.NET MVC版。<br>
+　2014年作品 網路書店ASP.NET MVC版。<br>
 　專案內使用之圖片與設定價格皆為測試之用，無任何侵權之意。<br>
 　本專案為私人練習之用，勿任意散播。<br>
 <br>
