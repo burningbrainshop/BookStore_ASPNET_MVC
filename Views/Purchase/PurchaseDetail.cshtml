@@ -1,0 +1,134 @@
+﻿@model BookStore.ViewModels.PurchaseDetailView
+@using BookStore.Models;
+@using System.Text;
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@{
+    var ajaxOptions = new AjaxOptions() { 
+        Confirm = "您確定要刪除此筆資料?",
+        OnSuccess = "DelCmdSuccess",
+        OnFailure = "DelCmdFailure"
+    };
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/ProductsByProvider.js")"></script>
+    <script>
+        function DelCmdSuccess() {
+            alert("資料刪除成功");
+            location.reload();
+        }
+
+        function DelCmdFailure(xhr) {
+            alert("資料刪除失敗");
+        }
+    </script>
+}
+
+@using (Html.BeginForm("PurchaseItemCreate", "Purchase"))
+{
+    @Html.HiddenFor(model => model.PurchaseId)
+    @Html.HiddenFor(model => model.ProviderId)
+    <table align="center" style="width:650px;margin-left:70px;">
+        <tr>
+            <td colspan="2"  style="text-align:left;"><h3>採購單資料</h3></td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">供應商名稱</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.DisplayFor(model => model.ProviderName )
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">採購金額</td>
+            <td style="text-align:left;padding-left:15px;color:darkred;">
+                @String.Format("{0:C}", Model.Amount)
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">交貨日期</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.DisplayFor(model => model.StockedOn, new { @class = "singleTextBox" })
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                @Html.ActionLink("修改", "PurchaseTitleEdit", new { purchaseId = Model.PurchaseId }) | 
+                @Html.ActionLink("返回列表", "PurchaseTitleIndex")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:left;"> 
+                新增 / 編輯採購項目
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                @if(!Model.productItems.Count.Equals(0))
+                {
+                    <table style="width:100%;">
+                        <tr style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;">
+                            <td>&nbsp;</td>
+                            <td>商品名稱</td>
+                            <td>商品成本</td>
+                            <td>商品數量</td>
+                            <td>編輯</td>
+                        </tr>
+                        @foreach(var item in Model.productItems)
+                        {
+                            <tr>
+                                <td style="background-color:#808080;border-bottom:1px dashed #999;">&nbsp;</td>
+                                <td style="border-bottom:1px dashed #999;">@item.ProductName</td>
+                                <td style="border-bottom:1px dashed #999;text-align:center;color:darkred;">@String.Format("{0:C}", item.Cost)</td>
+                                <td style="border-bottom:1px dashed #999;text-align:center;">@item.Quantity</td>
+                                <td style="border-bottom:1px dashed #999;width:80px;white-space:nowrap;text-align:center;">
+                                    @Html.ActionLink("修改", "PurchaseItemEdit", new { purchaseId = Model.PurchaseId, purchaseDetailId = item.Id })
+                                    @Ajax.ActionLink("刪除", "PurchaseItemDelete", new { purchaseDetailId =item.Id, providerId = Model.ProviderId }, ajaxOptions)
+                                </td>
+                            </tr>
+                        }                      
+                    </table>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                
+                <fieldset>
+                    <legend>採購商品資料</legend>
+                        商品類別 : @Html.DropDownList("CategoryId", (SelectList)ViewBag.CategorySelectList, "--請選擇--") @Html.DropDownList("ProductId", (SelectList)ViewBag.ProductSelectList, "--請選擇--")<br />
+                        成本金額 : @Html.TextBox("Cost", null, new { @class = "priceTextBox" })<br />
+                        採購數量 : @Html.TextBox("Quantity", null, new { @class = "priceTextBox" })@Html.ValidationMessageFor(model => model.productItems.ToList().FirstOrDefault().Quantity)
+                        <br />
+                        <input type="submit" value="新增" id="submitBtn" />
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+}
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:140px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>採購進貨管理</h4></td></tr>
+        <tr><td style="border:0px;background-color:#8ebce1;">@Html.ActionLink("採購單設定", "PurchaseTitleIndex", "Purchase")</td></tr>
+        <tr><td style="border:0px;">&nbsp;@Html.ActionLink("進貨單設定", "StockTitleIndex", "Stock")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>

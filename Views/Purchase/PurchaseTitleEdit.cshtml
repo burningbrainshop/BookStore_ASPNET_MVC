@@ -1,0 +1,63 @@
+﻿@model BookStore.Models.PurchaseTitle
+@using BookStore.Helpers;
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.8.20.js")"></script>
+    <script type="text/javascript" src="jQuery/development-bundle/ui/i18n/jquery.ui.datepicker-zh-TW.js"></script>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/PickDate.js")"></script>
+}
+
+@using(Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.PurchaseId)
+    <table align="center" style="width:400px;">
+        <tr>
+            <td colspan="2"  style="text-align:left;"><h3>採購單資料</h3></td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">供應商名稱</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.ProvidersListFor(model => model.ProviderId, "Y")<br />
+                @Html.ValidationMessageFor(model => model.ProviderId)
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">採購金額</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.TextBoxFor(model => model.Amount, new { @class = "priceTextBox" })<br />
+                @Html.ValidationMessageFor(model => model.Amount)
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">交貨日期</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.TextBoxFor(model => model.StockedOn, new { @class = "singleTextBox" }) <button id="calendar" style="width:25px;height:25px;vertical-align:middle;"></button><div id="date"></div><br />
+                @Html.ValidationMessageFor(model => model.StockedOn)
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent;">
+                <input type="submit" value="修改" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;">
+                @Html.ActionLink("明細", "PurchaseDetail", new { purchaseId = Model.PurchaseId }) | 
+                @Html.ActionLink("返回列表", "PurchaseTitleIndex")
+            </td>
+        </tr>
+    </table>
+}
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:140px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>採購進貨管理</h4></td></tr>
+        <tr><td style="border:0px;background-color:#8ebce1;">@Html.ActionLink("採購單設定", "PurchaseTitleIndex", "Purchase")</td></tr>
+        <tr><td style="border:0px;">&nbsp;@Html.ActionLink("進貨單設定", "StockTitleIndex", "Stock")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>

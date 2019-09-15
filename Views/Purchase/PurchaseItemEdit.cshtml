@@ -1,0 +1,110 @@
+﻿@model BookStore.ViewModels.PurchaseDetailView
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/checkPurItemForm.js")"></script>
+}
+
+@using (Html.BeginForm("PurchaseItemEdit", "Purchase"))
+{
+    @Html.HiddenFor(model => model.PurchaseId)
+    @Html.HiddenFor(model => model.ProviderId)
+    <table align="center" style="width:650px;margin-left:70px;" id="detailTab">
+        <tr>
+            <td colspan="2"  style="text-align:left;"><h3>採購單資料</h3></td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">供應商名稱</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.DisplayFor(model => model.ProviderName )
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">採購金額</td>
+            <td style="text-align:left;padding-left:15px;color:darkred;">
+                @Html.DisplayFor(model => model.Amount)
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">交貨日期</td>
+            <td style="text-align:left;padding-left:15px;">
+                @Html.DisplayFor(model => model.StockedOn, new { @class = "singleTextBox" })
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                @Html.ActionLink("修改", "PurchaseTitleEdit", new { purchaseId = Model.PurchaseId }) | 
+                @Html.ActionLink("返回列表", "PurchaseTitleIndex")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:left;"> 
+                新增 / 編輯採購項目
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent; text-align:left;"> 
+                @if(!Model.productItems.Count.Equals(0))
+                {
+                    <table style="width:100%;">
+                        <tr style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;">
+                            <td>&nbsp;</td>
+                            <td>商品名稱</td>
+                            <td>商品成本</td>
+                            <td>商品數量</td>
+                            <td>編輯</td>
+                        </tr>
+                        @foreach(var item in Model.productItems)
+                        {
+                            <tr>
+                                <td style="background-color:#808080;border-bottom:1px dashed #999;">&nbsp;</td>
+                                <td style="border-bottom:1px dashed #999;">@item.ProductName</td>
+                                @if (item.Id.Equals(ViewBag.EditId))
+                                {
+                                    @Html.HiddenFor(detail => item.Id)
+                                    <td style="border-bottom:1px dashed #999;text-align:center;">@Html.TextBoxFor(detail => item.Cost, new { @class = "priceTextBox" })</td>
+                                    <td style="border-bottom:1px dashed #999;text-align:center;">@Html.TextBoxFor(detail => item.Quantity, new { @class = "priceTextBox" })</td>
+                                    <td style="border-bottom:1px dashed #999;width:80px;white-space:nowrap;text-align:center;">
+                                        <input type="submit" value="修改" id="updPurchDetail" />
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="border-bottom:1px dashed #999;text-align:center;">@Html.DisplayFor(detail => item.Cost)</td>
+                                    <td style="border-bottom:1px dashed #999;text-align:center;">@Html.DisplayFor(detail => item.Quantity)</td>
+                                    <td style="border-bottom:1px dashed #999;">&nbsp;</td>
+                                }
+                            </tr>                           
+                        }   
+                        <tr>
+                            <td id="show" colspan="5" style="border-bottom:1px solid transparent;border-left:1px solid transparent;border-right:1px solid transparent;text-align:left;">
+                            </td>
+                        </tr>     
+                        <tr>
+                            <td colspan="5" style="border:1px solid transparent;text-align:left;">
+                                @Html.ActionLink("返回明細", "PurchaseDetail", new { purchaseId = Model.PurchaseId })
+                            </td>
+                        </tr>              
+                    </table>
+                }
+            </td>
+        </tr>
+    </table>
+}
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:140px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>採購進貨管理</h4></td></tr>
+        <tr><td style="border:0px;background-color:#8ebce1;">@Html.ActionLink("採購單設定", "PurchaseTitleIndex", "Purchase")</td></tr>
+        <tr><td style="border:0px;">&nbsp;@Html.ActionLink("進貨單設定", "StockTitleIndex", "Stock")</td></tr>
+        <tr><td style="border:0px;">&nbsp;</td></tr>
+    </table>
+</div>
+
