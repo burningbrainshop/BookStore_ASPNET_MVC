@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "~/Views/Shared/_BookStoreLayout.cshtml";   
+}
+
+<center>
+<h2>會員註冊　驗證信確認結果</h2>
+<br /><br />
+    <div style="width:450px;text-align:center;">
+        @if (TempData["RegisterResult"] == "NoAccount")
+        {
+            <span style="text-align:left;">
+                <b>找不到此帳號，請至您的電子郵件信箱重新點擊連結，或者</b><br /><br />
+                @Html.ActionLink("重新註冊", "Register", "Member") | @Html.ActionLink("逛逛書店", "Index", "BookProduct")
+            </span>       
+        }
+        else
+        {
+            if (TempData["RegisterResult"] == "CheckOk")
+            {
+                <span style="width:200px;background-color:#eee;text-align:left;">
+                    <b>會員資料確認成功!</b><br /><br />
+                    @Html.ActionLink("逛逛書店", "Index", "BookProduct") | @Html.ActionLink("會員登入", "Login", "Member")
+                </span>
+            }
+            else
+            { 
+                <span style="width:200px;background-color:#eee;text-align:left;">
+                    <b>您可能已經通過確認了，如有問題請洽服務人員!</b><br /><br />
+                    @Html.ActionLink("逛逛書店", "Index", "BookProduct") | @Html.ActionLink("會員登入", "Login", "Member")
+                </span>         
+            }
+        }
+    </div>
+</center>

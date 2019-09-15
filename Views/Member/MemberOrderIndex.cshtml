@@ -1,0 +1,185 @@
+﻿@model List<BookStore.ViewModels.OrderTitleView>
+@using BookStore.Helpers;
+@using System.Text;
+
+@{
+    Layout = "~/Views/Shared/_BookStoreLayout.cshtml";
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.8.20.min.js")"></script>
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.singlesticker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/UserJQApp.js")"></script>
+}
+
+@using(Html.BeginForm())
+{
+    <table id='bookinfo' align="center">
+	    <tr class="ui-widget-header ui-priority-primary">
+		    <td style="height:40px;background-color:#dbdfe5;border:1px solid transparent;text-align:left;">
+			    <font style='font-size:22px;margin-left:30px;'>會員專區</font>
+		    </td>
+	    </tr>
+	    <tr>
+		    <td style="height:510px;border:1px solid #dbdfe5;text-align:center;" valign="top">
+			    <table id="content" align="center">
+				    <tr>
+					    <td style="border:1px solid transparent;text-align:left;" valign="top">
+						    <div id="choices" style="margin-left:100px; margin-top:15px;">
+							    <label for="idmember">個人資料</label><input type="radio" name="choice" id="idmember" />
+							    <label for="idorder">訂單查詢</label><input type="radio" name="choice" id="idorder" checked />
+							    <label for="idnextbuy">下次買清單</label><input type="radio" name="choice" id="idnextbuy" />
+						    </div>
+						    <div id="editContent" style="width:80%; height:420px; border:1px solid #999; margin-left:100px; text-align:center; overflow:hidden;">
+						        <table style="width:100%;">
+                                    <tr style="background-color:#cfcfcf;">
+                                        <td colspan="6" style="border:1px solid transparent;text-align:left;">搜尋訂單：@Html.DropDownList("timeValue", (IEnumerable<SelectListItem>)ViewData["ordertime"]) <input type="submit" value="確定" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" style="text-align:left;"><h3>訂單列表</h3></td>
+                                    </tr>
+                                    <tr style="background-color:#cfcfcf;">
+                                        <td style="width:120px;padding:10px;border-right:1px solid #bbb;">訂購時間</td>
+                                        <td style="width:60px;padding:10px;border-right:1px solid #bbb;">訂單編號</td>
+                                        <td style="width:60px;padding:10px;border-right:1px solid #bbb;">訂購金額</td>
+                                        <td style="width:60px;padding:10px;border-right:1px solid #bbb;">商品數量</td>
+                                        <td style="width:100px;padding:10px;border-right:1px solid #bbb;">訂單狀態</td>
+                                        <td style="width:40px; text-align:center;white-space:nowrap;">明細</td>
+                                    </tr>
+                                    <tbody id="content-list">
+                                        @if (!Model.Count.Equals(0))
+                                        {
+                                            foreach(var item in Model)
+                                            {
+                                                using(Html.BeginForm("OrderStatusEdit", "Order"))
+                                                {                    
+                                                <tr>           
+                                                    <td style="border-right:1px solid #bbb;">@item.CreatedOn</td>
+                                                    <td style="border-right:1px solid #bbb;">@item.OrderId</td>    
+                                                    <td style="color:darkred;font-weight:bold;border-right:1px solid #bbb;">@String.Format("{0:d}", item.Amount)<span style="color:black">元</span></td>
+                                                    <td style="border-right:1px solid #bbb;">@item.ItemCount</td>
+                    
+                                                    <td style="border-right:1px solid #bbb;">@Html.DisplayOrderStatus(item.StatusId)</td>
+                                                    <td>
+                                                        @Html.ActionLink("明細", "OrderDetails", new { orderId = item.OrderId })
+                                                    </td>
+                                                </tr>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        { 
+                                            <tr><td colspan="6">目前沒有資料</td></tr>
+                                        }
+                                    </tbody>
+                                    <tr>
+                                        <td colspan="9" style="border:1px solid transparent;padding:0;">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="9" style="border:1px solid transparent;padding:0;">
+                                            <table align="center" style="border:0px;font-size:12px;width:100%;">
+                                                <tr>
+                                                    @if (ViewBag.Paging.NowPage > 1)
+                                                    {
+                                                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("第一頁", "GetIndexPage", new { icurPage = 1 })</td>
+                                                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("前一頁", "GetIndexPage", new { icurPage = (ViewBag.Paging.NowPage - 1) })</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">第一頁</td>
+                                                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">上一頁</td>
+                                                    }
+                                                    <td style="border:1px solid #808080;width:200px;">
+                                                    @for (var page = (ViewBag.Paging.NowPage - 6); page < (ViewBag.Paging.NowPage + 6); page++)
+                                                    {
+                                                        if (page > 0 && page <= ViewBag.Paging.MaxPage)
+                                                        {
+                                                            if (page == ViewBag.Paging.NowPage)
+                                                            {
+                                                                <b><span style="color:#72a1d0;">@page</span></b>
+                                                            }
+                                                            else
+                                                            {
+                                                                string pageStr = page.ToString();
+                                                                @Html.ActionLink(pageStr, "GetIndexPage", new { icurPage = page })
+                                                            }
+                                                        }
+                                                    }
+                                                    </td>
+                                                    @if (ViewBag.Paging.NowPage < ViewBag.Paging.MaxPage)
+                                                    {
+                                                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("下一頁", "GetIndexPage", new { icurPage = (ViewBag.Paging.NowPage + 1) })</td> 
+                                                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("最後一頁", "GetIndexPage", new { icurPage = ViewBag.Paging.MaxPage })</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">下一頁</td>
+                                                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">最後一頁</td>
+                                                    }
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="9" style="border:1px solid transparent;">&nbsp;</td>
+                                    </tr>
+                                </table>
+                            </div>
+					    </td>
+				    </tr>
+		        </table>
+		    </td>
+	    </tr>
+	    <tr>
+		    <td style="height:40px; background-color:#000;border:1px solid transparent;" nowrap>
+			    <table border="0">
+				    <tr>
+					    <td style="width:300px;border:1px solid transparent;text-align:left;">
+						    <span id="news" style="display:inline-block;">
+							    <div class="headline"><img src="/Images/blue/megaphone.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 11/29~12/25 參展書5折起，指定商品滿699元再折50元</span></div>
+							    <div class="headline"><img src="/Images/red/video-music.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 遇見。專屬你的樂讀星球 飛碟有聲書展</span></div>
+							    <div class="headline"><img src="/Images/blue/megaphone.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 會員獨享﹣滿千元送3﹪購物金</span></div>
+							    <div class="headline"><img src="/Images/blue/megaphone.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 入會、首購禮 特定商品禮券免費送</span></div>
+							    <div class="headline"><img src="/Images/blue/alarm-clock.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 年度獻禮 Android系列叢書熱賣中 滿千再折扣</span></div>
+						    </span>
+					    </td>
+					    <td style="width:200px;border:1px solid transparent;">
+						    <span id="dockBack" style="display:block; overflow:hidden; width:250px; height:40px;">
+  							    <ul id="dock" style="list-style:none; display:inline; width:250px; height:40px; margin:0; padding:0;">
+    							    <li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								    <img id="show" src="/Images/black/home.png" border="0" alt="HOME" width="35" height="35" />
+    							    </li>
+    							    <li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								    <img id="loginImg" src="/Images/black/inbox.png" border="0" alt="LOGIN" width="35" height="35" />
+    							    </li>
+    							    <li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								    <img id="show" src="/Images/black/game-controller.png" alt="WEBSITE" border="0" width="35" height="35" />
+    							    </li>
+    							    <li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								    <img id="show" src="/Images/black/shopping-cart.png" alt="CART" border="0" width="35" height="35" />
+    							    </li>
+    							    <li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								    <img id="show" src="/Images/black/users.png" border="0" alt="USER" width="35" height="35" />
+    							    </li>
+    							    <li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								    <img id="show" src="/Images/black/wireless-router.png" alt="MANAGER" border="0" width="35" height="35" />
+    							    </li>
+  							    </ul>
+  						    </span>
+  					    </td>
+  					    <td style="width:290px;border:1px solid transparent;">
+  						    <div id="loginDiv" style="width:290px; height:28px; color:#FFF; border:1px solid #3E3E3E; line-height:34px; margin-right:10px; text-align:center;">
+  						        @if (User.IsInRole("Member") && User.Identity.IsAuthenticated)
+                                  { 
+                                      @:您登入的帳號: @User.Identity.Name      
+                                  }
+                            </div>
+  					    </td>
+  				    </tr>
+  			    </table>
+		    </td>
+	    </tr>
+    </table>
+}

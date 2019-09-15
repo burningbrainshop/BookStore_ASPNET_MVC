@@ -1,0 +1,68 @@
+﻿@model BookStore.Models.Member
+
+@{
+    Layout = "~/Views/Shared/_BookStoreLayout.cshtml";   
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.8.20.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.datepicker-zh-TW.js")"></script>    
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/pickBirthday.js")"></script>
+}
+
+<br />
+@using(Html.BeginForm("RegisterCreate", "Member"))
+{
+    <table align="center" style="width:500px;">
+        <tr>
+            <td colspan="2" style="width:50px;text-align:left;white-space:nowrap;background-color:#3c3939;color:#66d5e9;font-weight:bold;padding:10px;">新會員註冊資料</td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">會員帳號</td>
+            <td style="text-align:left;">
+                @Html.TextBoxFor(model => model.Account, new { @class = "singleTextBox" })<br />
+                @Html.ValidationMessageFor(model => model.Account)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">會員密碼</td>
+            <td style="text-align:left;">
+                @Html.PasswordFor(model => model.Password, new { @class = "singleTextBox" })<br />
+                @Html.ValidationMessageFor(model => model.Password)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">會員姓名</td>
+            <td style="text-align:left;">
+                @Html.TextBoxFor(model => model.Name, new { @class = "singleTextBox" })<br />
+                @Html.ValidationMessageFor(model => model.Name)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">會員生日</td>
+            <td style="text-align:left;">
+                @Html.TextBoxFor(model => model.Birthday, new { @class = "singleTextBox" }) <button id="calendar" style="width:25px;height:25px;vertical-align:middle;"></button><div id="date"></div><br />
+                @Html.ValidationMessageFor(model => model.Birthday)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">電子郵件</td>
+            <td style="text-align:left;">
+                @Html.TextBoxFor(model => model.Email)<br />
+                @Html.ValidationMessageFor(model => model.Email)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50px;text-align:center;white-space:nowrap;background-color:black;color:#ddd;padding:10px;">聯絡電話</td>
+            <td style="text-align:left;">
+                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "singleTextBox" })<br />
+                @Html.ValidationMessageFor(model => model.PhoneNumber)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border:1px solid transparent;"><input type="submit" value="確定" /></td>
+        </tr>
+    </table>
+}

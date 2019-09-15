@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "~/Views/Shared/_BookStoreLayout.cshtml";
+}
+
+<center>
+    <div style="width:350px;text-align:left;">
+        <h2>會員註冊成功</h2>
+        <br />
+        恭喜您註冊成功!請至您的註冊信箱收取確認信件!
+        <br /><br />
+        @Html.ActionLink("會員登入", "Login", "Member")| @Html.ActionLink("重新註冊", "Register", "Member")
+    </div>
+</center>
+
