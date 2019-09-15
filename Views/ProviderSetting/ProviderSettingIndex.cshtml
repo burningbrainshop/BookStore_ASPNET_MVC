@@ -1,0 +1,70 @@
+﻿@model BookStore.Models.ProviderSetting
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper"></div>
+    </section>
+}
+
+@{
+    ViewBag.Title = "供應商類別設定";
+
+    var ajaxOptions = new AjaxOptions()
+    {
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "content-list",
+        HttpMethod = "Post",
+        OnSuccess = "AddCmdSuccess",
+        OnFailure = "AddCmdFailure"
+    };
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    
+    <script>        
+        function AddCmdSuccess()
+        {
+            alert("資料新增成功");
+            document.getElementById("ProviderCodeName").innerText = "";
+        }
+        function AddCmdFailure()
+        {
+            alert("資料新增失敗");
+        }
+    </script>
+}
+<table align="center" style="width:355px; margin-right:5px;">
+    <tr>
+        <td colspan="3" style="text-align:left;"><h3>供應商類別設定-列表</h3></td>
+    </tr>
+    <tr style="background-color:#000; color:#ada6a6;">
+        <td style="width:20px; text-align:center;"></td>
+        <td>供應商類別名稱</td>
+        <td style="width:40px; text-align:center;">編輯</td>
+    </tr>
+    <tbody id="content-list">
+        @Html.Action("ProviderSettingDataList")
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+@using (Ajax.BeginForm("ProviderSettingCreate", ajaxOptions))
+{
+    <div>
+        <span style="font-weight:bold;">新增供應商類別：</span>
+        @Html.TextBoxFor(model => model.ProviderCodeName)
+        <input type="submit" value="確定" /><br />
+        <span style="margin-left:220px;">@Html.ValidationMessageFor(model => model.ProviderCodeName)</span>
+    </div>
+}
+<div style="position:absolute; top:145px; left:200px; border-right:1px solid; height:200px;">
+    <table style="border:0px;">
+        <tr><td style="border-left:0px; border-top:0px; border-right:0px; border-bottom:1px solid;"><h4>類別代碼設定</h4></td></tr>
+        <tr><td style="border:0px;text-align:right;">@Html.ActionLink("產品類別設定", "CategorySettingIndex", "CategorySetting")</td></tr>
+        <tr><td style="border:0px;text-align:right;background-color:#8ebce1;">@Html.ActionLink("供應商類別設定", "ProviderSettingIndex")</td></tr>
+        <tr><td style="border:0px;text-align:right;">@Html.ActionLink("訂單狀態設定", "OrderStatusSettingIndex", "OrderStatusSetting")</td></tr>
+    </table>
+</div>
+

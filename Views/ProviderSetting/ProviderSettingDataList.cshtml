@@ -1,0 +1,68 @@
+﻿@model List<BookStore.Models.ProviderSetting>
+
+@if (!Model.Count.Equals(0))
+{
+    foreach(var item in Model)
+    {
+        <tr>
+            <td style="width:20px; text-align:center;">@item.ProviderCodeId</td>
+            <td>@item.ProviderCodeName</td>
+            <td style="width:40px; text-align:center;">@Html.ActionLink("修改", "ProviderSettingEdit", new { providerId = item.ProviderCodeId })</td>
+        </tr>
+    }
+    <tr>
+        <td colspan="3" style="border:1px solid transparent;padding:0;">&nbsp;</td>
+    </tr>
+    <tr style="border:0px;">
+        <td colspan="3" style="border:1px solid transparent;padding:0;">
+            <table align="center" style="border:0px;font-size:12px;width:100%;">
+                <tr>
+                    @if (ViewBag.Paging.NowPage > 1)
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("第一頁", "GetPage", new { curPage = 1 })</td>
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("前一頁", "GetPage", new { curPage = (ViewBag.Paging.NowPage - 1) })</td>
+                    }
+                    else
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">第一頁</td>
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">上一頁</td>
+                    }
+                    <td style="border:1px solid #808080;width:40%;">
+                    @for (var page = (ViewBag.Paging.NowPage - 6); page < (ViewBag.Paging.NowPage + 6); page++)
+                    {
+                        if (page > 0 && page <= ViewBag.Paging.MaxPage)
+                        {
+                            if (page == ViewBag.Paging.NowPage)
+                            {
+                                <b><span style="color:#72a1d0;">@page</span></b>
+                            }
+                            else
+                            {
+                                string pageStr = page.ToString();
+                                @Html.ActionLink(pageStr, "GetPage", new { curPage = page })
+                            }
+                        }
+                    }
+                    </td>
+                    @if (ViewBag.Paging.NowPage < ViewBag.Paging.MaxPage)
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("下一頁", "GetPage", new { curPage = (ViewBag.Paging.NowPage + 1) })</td> 
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;">@Html.ActionLink("最後一頁", "GetPage", new { curPage = ViewBag.Paging.MaxPage })</td>
+                    }
+                    else
+                    {
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">下一頁</td>
+                        <td style="border:1px solid #808080;background-color:#b4b9bd;color: #808080;">最後一頁</td>
+                    }
+                </tr>
+            </table>
+        </td>
+    </tr>
+}
+else
+{ 
+    <tr>
+        <td colspan="3">目前沒有資料</td>
+    </tr>
+}
+
