@@ -1,0 +1,105 @@
+﻿@model List<BookStore.Models.Cart>
+
+@{
+    Layout = "~/Views/Shared/_BookStoreLayout.cshtml";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.8.20.min.js")"></script>
+    <link type="text/css" rel="stylesheet" href="@Url.Content("~/Content/themes/base/jquery-ui.css")"></link>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/CartList.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.singlesticker.js")"></script>
+}
+
+<table id='bookinfo' align="center" style='margin-left:-23px;'>
+    <tr>
+		<td style="height:40px;background-color:#dbdfe5;border:1px solid transparent;text-align:left;">
+			<font style='font-size:22px;margin-left:30px;'>購物車</font>
+		</td>
+	</tr>
+	<tr>
+		<td style="height:510px; background-color:#000; text-align:center;" valign="top">
+			<table id="content" border="0" align="center">
+				<tr>
+					<td style="width:72%; padding:20px" valign="top">
+						<div id="listTitle" style="width:500px; height:30px; color:#6699CC; font-size:18px; margin-left:-225px; margin-bottom:5px;">購物車
+                            <span style="position:absolute;font-size:12px; margin-left:295px;">
+                                @using(Html.BeginForm("OrderCreate", "Order"))
+                                {
+                                    if(User.Identity.IsAuthenticated && HttpContext.Current.Session["Carts"] != null)
+                                    {
+                                        if (((List<BookStore.Models.Cart>)Session["Carts"]).Count() > 0)
+                                        {
+                                            <input type="submit" id="orderBtn" name="orderBtn" value="確認無誤，送出訂單" />
+                                        }
+                                    }
+                                }
+                            </span>
+						</div>
+						<div id="bookListContainer" style="position:absolute; width:550px; height:405px; background-color:#0b202e; border:1px solid #163073; margin-left:-5px; overflow:hidden;">	
+						    <div id="bookList" style="position:absolute; width:550px;"></div>
+						</div>
+						<div style="position:absolute; color:#669999; margin-top:415px; margin-left:0px;">數量為0時，即刪除此項產品的訂購資料。</div>
+					</td>
+					<td style="width:38%;" valign="top">
+						<div style="width:300px; height:30px; color:#6699CC; font-size:18px; margin-top:19px; margin-left:-140px; margin-bottom:5px;">下次買清單(可拖曳至購物車中)</div>
+						<div id="nextbuyContainer" class="nextbuyContainer">
+                            <div id="nextbuyList" style="position:absolute; width:353px;"></div>
+						</div>
+    					<div style="position:relative; width:330px; color:#669999; margin-left:-120px; margin-top:420px;">可將書名拖曳至此方框內以建立下次買清單。[須登入]</div>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td style="height:40px;background-color:#000;border:1px solid transparent;" nowrap>
+			<table border="0">
+				<tr>
+					<td style="width:300px;border:1px solid transparent;text-align:left;">
+						<span id="news" style="display:inline-block;">
+							<div class="headline"><img src="/Images/blue/megaphone.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 11/29~12/25 參展書5折起，指定商品滿699元再折50元</span></div>
+							<div class="headline"><img src="/Images/red/video-music.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 遇見。專屬你的樂讀星球 飛碟有聲書展</span></div>
+							<div class="headline"><img src="/Images/blue/megaphone.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 會員獨享﹣滿千元送3﹪購物金</span></div>
+							<div class="headline"><img src="/Images/blue/megaphone.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 入會、首購禮 特定商品禮券免費送</span></div>
+							<div class="headline"><img src="/Images/blue/alarm-clock.png" style="vertical-align:middle;width:23px;height:23px;border:0;" /><span style="font-size:12px;color:white;"> 年度獻禮 Android系列叢書熱賣中 滿千再折扣</span></div>
+						</span>
+					</td>
+					<td style="width:200px;border:1px solid transparent;">
+						<span id="dockBack" style="display:block; overflow:hidden; width:250px; height:40px;">
+  							<ul id="dock" style="list-style:none; display:inline; width:250px; height:40px; margin:0; padding:0;">
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="show" src="/Images/black/home.png" border="0" alt="HOME" width="35" height="35" />
+    							</li>
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="loginImg" src="/Images/black/inbox.png" border="0" alt="LOGIN" width="35" height="35" />
+    							</li>
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="show" src="/Images/black/game-controller.png" alt="WEBSITE" border="0" width="35" height="35" />
+    							</li>
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="show" src="/Images/black/shopping-cart.png" alt="CART" border="0" width="35" height="35" />
+    							</li>
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="show" src="/Images/black/users.png" border="0" alt="USER" width="35" height="35" />
+    							</li>
+    							<li style="float:left; line-height:40px; width:40px; height:40px; cursor:pointer;">
+      								<img id="show" src="/Images/black/wireless-router.png" alt="MANAGER" border="0" width="35" height="35" />
+    							</li>
+  							</ul>
+  						</span>
+  					</td>
+  					<td style="width:290px;border:1px solid transparent;">
+  						<div id="loginDiv" style="width:290px; height:28px; color:#FFF; border:1px solid #3E3E3E;line-height:30px;margin-right:10px;text-align:center;">
+                              @if (User.IsInRole("Member") && User.Identity.IsAuthenticated)
+                              { 
+                                  @:您登入的帳號: @User.Identity.Name      
+                              }
+  						</div>
+  					</td>
+  				</tr>
+  			</table>
+		</td>
+	</tr>
+</table>
